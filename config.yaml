@@ -1,0 +1,23 @@
+---
+- name: Creating Motd File and User
+  hosts: centos, ubuntu
+  become: yes  # Run tasks with elevated privileges (sudo)
+
+  vars:
+    python_package: python3
+    pip_package: python3-pip
+    username: your_username_here  # Replace with the desired username
+    home_directory: "/home/{{ username }}"
+    shell: "/bin/bash"  # Adjust shell as needed
+
+  tasks:
+    - name: Create motd file
+      template:
+        src: motd.j2
+        dest: /etc/motd
+
+    - name: Create user
+      user:
+        name: "{{ username }}"
+        home: "{{ home_directory }}"
+        shell: "{{ shell }}"
